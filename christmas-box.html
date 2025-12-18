@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>圣诞礼盒</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --primary-red: #b71c1c;
+      --primary-green: #1b5e20;
+      --gold: #d4af37;
+      --bg: #102027;
+      --card-bg: rgba(255, 255, 255, 0.96);
+      --text-main: #333333;
+      --text-sub: #666666;
+      --border-radius: 14px;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      color: var(--text-main);
+      background:
+        radial-gradient(circle at top, rgba(255, 255, 255, 0.12), transparent 55%),
+        url("https://via.placeholder.com/1600x900/102027/ffffff?text=%E9%9B%AA%E8%8A%B1%E8%83%8C%E6%99%AF%E5%8F%AF%E6%8D%A2") center/cover fixed;
+      background-color: var(--bg);
+    }
+    .page {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 18px 12px 24px;
+    }
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 18px 16px 20px;
+      box-shadow:
+        0 6px 18px rgba(0, 0, 0, 0.35),
+        0 0 0 1px rgba(255, 255, 255, 0.18);
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      pointer-events: none;
+    }
+
+    /* 顶部信件图片区域 */
+    .hero-card {
+      padding: 10px;
+    }
+    .hero-image-wrapper {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(212, 175, 55, 0.55);
+      background: #111;
+    }
+    .hero-image-wrapper img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+    .hero-caption {
+      font-size: 12px;
+      color: #f5f5f5;
+      text-align: center;
+      margin-top: 6px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+    .header-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 20%, #ffe082, var(--primary-red));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fffbe6;
+      font-size: 22px;
+      flex-shrink: 0;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+    }
+    h1 {
+      font-size: 24px;
+      margin: 0;
+      color: var(--primary-red);
+      letter-spacing: 2px;
+    }
+    .subtitle {
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-top: 4px;
+    }
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .tag {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      background: linear-gradient(135deg, #fff8e1, #ffebee);
+      color: #8d6e63;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .tag-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--primary-red);
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 4px 0 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--primary-green);
+    }
+    .section-title::before {
+      content: "";
+      width: 3px;
+      height: 16px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--gold), var(--primary-red));
+    }
+    p {
+      margin: 4px 0 6px;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+    .em {
+      color: var(--primary-red);
+      font-weight: 500;
+    }
+
+    .gift-list {
+      margin: 6px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .gift-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 9px 9px;
+      margin-bottom: 5px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #fafafa, #fffdf8);
+      border: 1px dashed rgba(183, 28, 28, 0.16);
+      position: relative;
+    }
+    .gift-item::before {
+      content: "";
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 20%, #ffffff, #ffcc80);
+      opacity: 0.35;
+    }
+    .gift-index {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-red), #ef5350);
+      color: #fffaf0;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+      box-shadow: 0 0 6px rgba(183, 28, 28, 0.4);
+    }
+    .gift-content-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #4e342e;
+    }
+    .gift-content-desc {
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-top: 3px;
+      line-height: 1.6;
+    }
+
+    .image-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .image-card {
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fdfdfd;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+    }
+    .image-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+    .image-caption {
+      font-size: 12px;
+      color: var(--text-sub);
+      padding: 7px 10px 9px;
+    }
+
+    @media (min-width: 600px) {
+      .page {
+        padding: 22px 16px 32px;
+      }
+      .card {
+        padding: 20px 20px 22px;
+      }
+      h1 {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- 顶部：给收到礼盒的朋友的一封信（图片） -->
+    <section class="card hero-card">
+      <div class="hero-image-wrapper">
+        <img src="images/letter.jpg" alt="给每一位收到礼盒的朋友的一封信">
+      </div>
+      <div class="hero-caption">
+        给每一位收到礼盒的你：这是一份小小的圣诞心意，愿你在翻开礼盒的瞬间，被温柔与甜蜜轻轻拥抱。
+      </div>
+    </section>
+
+    <!-- 标题 + 简介 -->
+    <section class="card">
+      <div class="header">
+        <div class="header-icon">🎄</div>
+        <div>
+          <h1>圣诞礼盒</h1>
+          <div class="subtitle">
+            在雪花与灯火之间，把法式浪漫、德式传统与东方茶香装进一盒，共度一段温暖而柔软的冬日时光。
+          </div>
+        </div>
+      </div>
+      <p style="margin-top:10px;">
+        这份<span class="em">圣诞礼盒</span>为你准备了 8 款风格各异的小点心与茶饮：  
+        从黄油与柠檬、果酱与坚果，到陈皮与茶香，每一口都是对这个冬天的温柔问候。
+      </p>
+    </section>
+
+    <!-- 礼盒内含物 -->
+    <section class="card">
+      <div class="section-title">礼盒内含物一览</div>
+      <p>本礼盒共包含以下 8 款精心搭配的节日点心与茶饮：</p>
+      <ul class="gift-list">
+        <li class="gift-item">
+          <div class="gift-index">1</div>
+          <div>
+            <div class="gift-content-title">柠檬玛德琳</div>
+            <div class="gift-content-desc">
+              贝壳造型的金黄蛋糕湿润松软，清新柠檬香气中透出细腻黄油风味，是午后法式浪漫的温暖缩影。
+            </div>
+          </div>
+        </li>
+        <li class="gift-item">
+          <div class="gift-index">2</div>
+          <div>
+            <div class="gift-content-title">巧克力橙皮磅蛋糕</div>
+            <div class="gift-content-desc">
+              醇厚黑巧融入橙皮的柑橘清香，口感绵密扎实，微苦与甘甜交织出复古而层次丰富的味觉体验。
+            </div>
+          </div>
+        </li>
+        <li class="gift-item">
+          <div class="gift-index">3</div>
+          <div>
+            <div class="gift-content-title">布列塔尼酥饼</div>
+            <div class="gift-content-desc">
+              经典法式酥饼，表层焦糖微脆，内里酥松，黄油奶香与海盐点缀完美平衡，每一口都是阳光海岸的冬日慰藉。
+            </div>
+          </div>
+        </li>
+        <li class="gift-item">
+          <div class="gift-index">4</div>
+          <div>
+            <div class="gift-content-title">月牙香草饼干</div>
+            <div class="gift-content-desc">
+              德国传统圣诞点心，杏仁面团制成优雅弯月形状，表面洒满香草糖霜，酥脆中透出温柔坚果香气，承载着节日的真挚祝愿。
+            </div>
+          </div>
+        </li>
+        <li class="gift-item">
+          <div class="gift-index">5</div>
+          <div>
+            <div class="gift-content-title">抹茶黄油厚切饼干</div>
+            <div class="gift-content-desc">
+              采用顶级抹茶与发酵黄油制成，厚切造型口感扎实酥脆，茶香清雅微苦与黄油醇厚完美相融，是日式雅致与西式风味的结合。
+            </div>
+          </div>
+        </li>
+        <li class="gift-item">
+          <div class="gift-index">6</div>
+          <div>
+            <div class="gift-content-title">青柠奶糖</div>
+            <div class="gift-content-desc">
+              半透明软糖包裹天然青柠清香，酸甜清爽而不腻，质地柔软即化，是点亮味蕾的清新小点。
+            </div>
+          </div>
+        </li>
+        <li class="gift-item">
+          <div class="gift-index">7</div>
+          <div>
+            <div class="gift-content-title">果酱软糖</div>
+            <div class="gift-content-desc">
+              外层 Q 弹、内藏真实果酱夹心，选用天然果泥制成，色彩明媚、果味浓郁，每一颗都像包裹着阳光的节日惊喜。
+            </div>
+          </div>
+        </li>
+        <li class="gift-item">
+          <div class="gift-index">8</div>
+          <div>
+            <div class="gift-content-title">老鹰茶</div>
+            <div class="gift-content-desc">
+              来自川渝山野的特色草本茶，带有天然樟木清香与薄荷般清凉回甘，口感温润醇和，解腻暖胃，为圣诞增添一份东方禅意。
+            </div>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- 图片展示区域（仅保留内部展示） -->
+    <section class="card">
+      <div class="section-title">内部展示</div>
+      <div class="image-grid">
+        <figure class="image-card">
+          <!-- TODO: 将下面 src 替换为「礼盒内部」实拍图片地址 -->
+          <img src="images/inner.jpg"  alt="圣诞礼盒内部内容物展示实拍图">
+          <figcaption class="image-caption">
+            蛋糕的保质期为5天，饼干、糖果的保质期为10天。欢迎大家加入光盘行动，不浪费，品尝美味=)
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
